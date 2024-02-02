@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Anime</title>
+</head>
+<body>
+    <h1>Buscar Anime</h1>
+    
+    <form id="searchForm">
+        <label for="animeTitle">Título del Anime:</label>
+        <input type="text" id="animeTitle" name="animeTitle" required>
+        <button type="button" onclick="searchAnime()">Buscar</button>
+    </form>
+
+    <div id="resultContainer" style="display: none;">
+        <h2>Resultado:</h2>
+        <p id="animeTitleResult"></p>
+        <p id="animeSynopsisResult"></p>
+        <p id="animeImageResult"></p>
+        <p id="animeScoreResult"></p>
+    </div>
+
+    <script>
+        async function searchAnime() {
+            const title = document.getElementById("animeTitle").value;
+
+            const response = await fetch(`/api/anime/search?title=${title}`);
+            const data = await response.json();
+
+            const resultContainer = document.getElementById("resultContainer");
+
+            if (response.ok) {
+                document.getElementById("animeTitleResult").innerText = `Título: ${data.title}`;
+                document.getElementById("animeSynopsisResult").innerText = `Sinopsis: ${data.synopsis}`;
+                document.getElementById("animeImageResult").innerText = `Imagen: ${data.imageUrl}`;
+                document.getElementById("animeScoreResult").innerText = `Puntuación: ${data.averageScore}`;
+                resultContainer.style.display = "block";
+            } else {
+                resultContainer.style.display = "none";
+                alert("Anime no encontrado");
+            }
+        }
+    </script>
+</body>
+</html>
