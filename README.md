@@ -1,2 +1,0 @@
-# AnimeRating
-AnimeRating
